@@ -1,16 +1,7 @@
-from amazon import AmazonScrape
-from shopee import ShopeeScrape
-from time import sleep
+from api import search, convert_to_csv
 import sys
 import pandas as pd
 import numpy as np
-
-def bayes_average():
-	return
-
-def analysis(data):
-	return trnsfrm
-	d_data
 
 def main():
 	result = list()
@@ -19,24 +10,9 @@ def main():
 		print(sys.argv[1])
 		keyword = sys.argv[1]
 
-		amazon_search = AmazonScrape(keyword)
-		amazon_search.search_result()
-		sleep(1)
-		shopee_search = ShopeeScrape(keyword)
-		shopee_search.search_result()
-
-		result = amazon_search.get_result() + shopee_search.get_result() 
-
-		print(result)
-		shop_df = pd.DataFrame.from_dict(result)
-		shop_df = shop_df.sort_values(by='ratings_count', ascending=False)
-
-
-		shop_df.to_csv(
-			f'olshop_scrape_search_{"_".join(keyword.split())}.csv', 
-			index=False, 
-			header=True
-		)
+		results = search(keyword)
+		print(results)
+		convert_to_csv(keyword,results['products'])
 
 if __name__ == '__main__':
 	main()
